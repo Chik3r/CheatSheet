@@ -44,7 +44,7 @@ namespace CheatSheet.Menus
 		//private static GenericItemSlot[] lookupItem = new GenericItemSlot[1];
 		internal static RecipeQuerySlot lookupItemSlot;
 
-		internal static GenericItemSlot[] ingredients;
+		internal static List<GenericItemSlot> ingredients;
 		//internal static GenericItemSlot[] tiles = new GenericItemSlot[Recipe.maxRequirements];
 
 		public static List<List<int>> categories = new List<List<int>>();
@@ -127,8 +127,8 @@ namespace CheatSheet.Menus
 				this.AddChild(uIImage2);
 			}
 
-			ingredients = new GenericItemSlot[Recipe.maxRequirements];
-			for (int j = 0; j < Recipe.maxRequirements; j++)
+			ingredients = new List<GenericItemSlot>();
+			for (int j = 0; j < /*Recipe.maxRequirements*/100; j++) // TODO: Change from random number
 			{
 				GenericItemSlot genericItemSlot = new GenericItemSlot();
 				Vector2 position = new Vector2(this.spacing, this.spacing);
@@ -141,7 +141,7 @@ namespace CheatSheet.Menus
 
 				genericItemSlot.Position = position;
 				genericItemSlot.Tag = j;
-				RecipeBrowserWindow.ingredients[j] = genericItemSlot;
+				RecipeBrowserWindow.ingredients.Add(genericItemSlot);
 				this.AddChild(genericItemSlot, false);
 			}
 
@@ -204,7 +204,7 @@ namespace CheatSheet.Menus
 				//	int num60 = Main.focusRecipe;
 				int num61 = 0;
 				int num62 = 0;
-				while (num62 < Recipe.maxRequirements)
+				while (num62 < /*Recipe.maxRequirements*/selectedRecipe.requiredTile.Count)
 				{
 					int num63 = (num62 + 1) * 26;
 					if (selectedRecipe.requiredTile[num62] == -1)
@@ -279,9 +279,9 @@ namespace CheatSheet.Menus
 
 				selectedRecipeChanged = false;
 				string oldname = Main.HoverItem.Name;
-				for (int i = 0; i < Recipe.maxRequirements; i++)
+				for (int i = 0; i < /*Recipe.maxRequirements*//*selectedRecipe.requiredItem.Count*/100; i++)
 				{
-					if (selectedRecipe.requiredItem[i].type > 0)
+					if (i < selectedRecipe.requiredItem.Count && selectedRecipe.requiredItem[i].type > 0)
 					{
 						ingredients[i].item = selectedRecipe.requiredItem[i];
 

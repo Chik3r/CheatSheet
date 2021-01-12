@@ -1,5 +1,6 @@
 ﻿using CheatSheet.Menus;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace CheatSheet
@@ -30,10 +31,16 @@ namespace CheatSheet
 			return base.PreAI(npc);
 		}
 
-		public override bool PreNPCLoot(NPC npc)
+		public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
 		{
-			return !isFiltered;
+			// TODO: Mystery magic that will help us later!
+			npcLoot.Add(new LeadingConditionRule(new FilteredConditionRule(isFiltered)));
 		}
+
+		//public override bool PreNPCLoot(NPC npc)
+		//{
+		//	return !isFiltered;
+		//}
 
 		/*public override void SpawnNPC(int npc, int tileX, int tileY)
         {
@@ -46,5 +53,30 @@ namespace CheatSheet
                 Main.npc[npc].active = false;
             }
         }*/
+	}
+
+	internal class FilteredConditionRule : IItemDropRuleCondition
+	{
+		private bool isFiltered = false;
+
+		public string GetConditionDescription()
+		{
+			return "isFiltered";
+		}
+
+		public FilteredConditionRule(bool filtered)
+		{
+			isFiltered = filtered;
+		}
+
+		public bool CanDrop(DropAttemptInfo info)
+		{
+			return !isFiltered;
+		}
+
+		public bool CanShowItemDropInUI()
+		{
+			return true;
+		}
 	}
 }

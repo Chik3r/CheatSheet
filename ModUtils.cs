@@ -19,7 +19,7 @@ namespace CheatSheet
 		// TODO: Temp until tmod is fixed
 		internal static bool AcceptedByItemGroups(this Recipe recipe, int invType, int reqType)
 		{
-			for (int i = 0; i < Recipe.maxRequirements; i++)
+			for (int i = 0; i < /*Recipe.maxRequirements*/recipe.acceptedGroups.Count; i++)
 			{
 				int num = recipe.acceptedGroups[i];
 				if (num == -1)
@@ -34,7 +34,7 @@ namespace CheatSheet
 
 		internal static bool ProcessGroupsForText(this Recipe recipe, int type, out string theText)
 		{
-			for (int i = 0; i < Recipe.maxRequirements; i++)
+			for (int i = 0; i < /*Recipe.maxRequirements*/recipe.acceptedGroups.Count; i++)
 			{
 				int num = recipe.acceptedGroups[i];
 				if (num == -1)

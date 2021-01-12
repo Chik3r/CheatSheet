@@ -6,18 +6,23 @@ using Terraria.ModLoader;
 
 namespace CheatSheet
 {
-	internal class CheatSheetWorld : ModWorld
+	internal class CheatSheetWorld : ModSystem
 	{
 		internal static string CSText(string key, string category = "ExtraAccessorySlots") => CheatSheet.CSText(category, key);
-		public override void Initialize()
+		public override void OnWorldLoad()
 		{
 			if (!Main.dedServ && Main.LocalPlayer.name != "")
 			{
 				try
 				{
-					CheatSheet.instance.hotbar.bCycleExtraAccessorySlots.Tooltip = CSText("ExtraAccessorySlots") + " " + Main.LocalPlayer.GetModPlayer<CheatSheetPlayer>().numberExtraAccessoriesEnabled;
-					CheatSheet.instance.paintToolsHotbar.UndoHistory.Clear();
-					CheatSheet.instance.paintToolsHotbar.UpdateUndoTooltip();
+					if (CheatSheet.instance.hotbar != null)
+						CheatSheet.instance.hotbar.bCycleExtraAccessorySlots.Tooltip = CSText("ExtraAccessorySlots") + " " + Main.LocalPlayer.GetModPlayer<CheatSheetPlayer>().numberExtraAccessoriesEnabled;
+
+					if (CheatSheet.instance.paintToolsHotbar != null)
+					{
+						CheatSheet.instance.paintToolsHotbar.UndoHistory.Clear();
+						CheatSheet.instance.paintToolsHotbar.UpdateUndoTooltip();
+					}
 				}
 				catch (Exception e)
 				{
